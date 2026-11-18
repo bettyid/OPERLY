@@ -4,7 +4,7 @@ AI-powered business operating platform for small businesses. Manage customers, s
 
 ## Stack
 
-Next.js, TypeScript, Tailwind CSS. Planned: Neon (PostgreSQL), Better Auth, Vercel Blob, deployed on Vercel.
+Next.js, TypeScript, Tailwind CSS, Neon (PostgreSQL), Better Auth, deployed on Vercel. Planned: Vercel Blob for files.
 
 ## Development
 
@@ -15,4 +15,8 @@ npm run dev
 
 ## Status
 
-Step 1 of the build: project foundation, indigo design system (Rubik + Nunito Sans) and public landing page. Authentication, database and the core workspace follow.
+Done: landing page, sign-up and login, business onboarding, dashboard shell with live data, per-business data isolation. Next: Customer Hub, Sales Hub, tasks, AI assistant.
+
+## Environment
+
+Copy `.env.example` and fill in the values. On Vercel, `DATABASE_URL` comes from the Neon integration and `BETTER_AUTH_SECRET` is set as a project variable. The schema in `db/schema.sql` is applied automatically before each build.
