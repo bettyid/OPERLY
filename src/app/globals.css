@@ -1,8 +1,6 @@
 @import "tailwindcss";
-@import "@fontsource-variable/rubik";
-@import "@fontsource-variable/nunito-sans";
 
-@theme {
+@theme inline {
   --color-canvas: #f4f3fb;
   --color-iris-400: #8b82f3;
   --color-iris-500: #7468f0;
@@ -21,8 +19,9 @@
   --color-muted: #6b6a86;
   --color-edge: #e6e4f4;
 
-  --font-display: "Rubik Variable", ui-rounded, system-ui, sans-serif;
-  --font-sans: "Nunito Sans Variable", ui-rounded, system-ui, sans-serif;
+  --font-display: var(--font-rubik), ui-rounded, system-ui, sans-serif;
+  --font-sans: var(--font-nunito), ui-rounded, system-ui, sans-serif;
+  --font-title: var(--font-fraunces), "Cooper Black", Georgia, serif;
 }
 
 html {

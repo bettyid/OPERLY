@@ -56,6 +56,8 @@ create table if not exists businesses (
   plan text not null default 'free',
   created_at timestamptz not null default now()
 );
+alter table businesses add column if not exists country text;
+alter table businesses add column if not exists timezone text not null default 'UTC';
 
 create table if not exists memberships (
   business_id uuid not null references businesses(id) on delete cascade,

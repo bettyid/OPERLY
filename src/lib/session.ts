@@ -3,7 +3,15 @@ import { redirect } from "next/navigation";
 import { auth } from "./auth";
 import { query } from "./db";
 
-export type Business = { id: string; name: string; industry: string | null; currency: string; plan: string };
+export type Business = {
+  id: string;
+  name: string;
+  industry: string | null;
+  currency: string;
+  plan: string;
+  country: string | null;
+  timezone: string;
+};
 
 export async function getSession() {
   return auth.api.getSession({ headers: await headers() });
@@ -15,7 +23,7 @@ export async function requireWorkspace() {
   if (!session) redirect("/login");
 
   const rows = await query<Business>(
-    `select b.id, b.name, b.industry, b.currency, b.plan
+    `select b.id, b.name, b.industry, b.currency, b.plan, b.country, b.timezone
        from memberships m join businesses b on b.id = m.business_id
       where m.user_id = $1
       order by m.created_at asc

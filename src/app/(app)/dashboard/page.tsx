@@ -20,8 +20,8 @@ export default async function DashboardPage() {
        (select count(*) from deals where business_id = $1 and stage not in ('won','lost')) as open_deals,
        (select coalesce(sum(value),0) from deals where business_id = $1 and stage not in ('won','lost')) as open_value,
        (select count(*) from deals where business_id = $1 and stage = 'won') as won_deals,
-       (select count(*) from tasks where business_id = $1 and done = false and due_date <= current_date) as due_tasks`,
-    [business.id],
+       (select count(*) from tasks where business_id = $1 and done = false and due_date <= (now() at time zone $2)::date) as due_tasks`,
+    [business.id, business.timezone],
   );
   const activities = await query<Activity>(
     "select id, summary, actor, created_at from activities where business_id = $1 order by created_at desc limit 6",
@@ -40,7 +40,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">Welcome, {firstName}</h1>
+      <h1 className="font-title text-4xl font-black tracking-tight sm:text-5xl">Welcome, {firstName}</h1>
       <p className="mt-2 text-muted">Here is where {business.name} stands today.</p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
