@@ -1,3 +1,5 @@
+import { Reveal } from "./Reveal";
+
 const steps = [
   { title: "Add your customers", body: "Create profiles or import a spreadsheet. Set your business name and logo once." },
   { title: "Track each deal", body: "Place every opportunity in your pipeline and move it forward as the conversation does." },
@@ -8,12 +10,14 @@ const steps = [
 export function HowItWorks() {
   return (
     <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-20">
-      <h2 className="max-w-2xl font-display text-3xl font-semibold tracking-tight sm:text-5xl">
-        From scattered notes to a working routine
-      </h2>
+      <Reveal>
+        <h2 className="max-w-2xl font-display text-3xl font-semibold tracking-tight sm:text-5xl">
+          From scattered notes to a working routine
+        </h2>
+      </Reveal>
       <ol className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
         {steps.map((s, i) => (
-          <li key={s.title} className="relative">
+          <Reveal as="li" key={s.title} delay={i * 120} className="relative">
             {i < steps.length - 1 && (
               <span className="absolute left-14 top-6 hidden h-0.5 w-[calc(100%-2rem)] bg-lilac-300 lg:block" aria-hidden="true" />
             )}
@@ -22,7 +26,7 @@ export function HowItWorks() {
             </span>
             <h3 className="mt-5 font-display text-xl font-semibold">{s.title}</h3>
             <p className="mt-2 leading-relaxed text-muted">{s.body}</p>
-          </li>
+          </Reveal>
         ))}
       </ol>
     </section>

@@ -1,3 +1,5 @@
+import { Reveal } from "./Reveal";
+
 const points = [
   { title: "It reads", body: "Only your own business records. Never another business's." },
   { title: "It prepares", body: "Replies, quotations and tasks arrive as drafts you can edit." },
@@ -7,7 +9,7 @@ const points = [
 export function Control() {
   return (
     <section className="mx-auto max-w-6xl px-5 py-10">
-      <div className="grid gap-10 rounded-[2.5rem] bg-midnight-900 p-8 text-white sm:p-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <Reveal className="grid gap-10 rounded-[2.5rem] bg-midnight-900 p-8 text-white sm:p-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div>
           <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
             AI that works inside your permissions
@@ -36,7 +38,7 @@ export function Control() {
             <span className="rounded-full bg-white/15 px-5 py-2.5 text-sm font-bold">Edit</span>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

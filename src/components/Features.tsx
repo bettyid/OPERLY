@@ -1,3 +1,5 @@
+import { Reveal } from "./Reveal";
+
 const customers = [
   { n: "Ada Okafor", t: "Boutique", c: "bg-mint/15 text-mint" },
   { n: "Marcus Lee", t: "Agency client", c: "bg-amber/15 text-amber" },
@@ -10,19 +12,25 @@ const tasks = [
   { t: "Review Sofia's proposal", d: false },
 ];
 
-function Card({ className = "", children }: { className?: string; children: React.ReactNode }) {
-  return <div className={`rounded-[2rem] p-7 ${className}`}>{children}</div>;
+function Card({ className = "", delay = 0, children }: { className?: string; delay?: number; children: React.ReactNode }) {
+  return (
+    <Reveal delay={delay} className={`rounded-[2rem] p-7 ${className}`}>
+      {children}
+    </Reveal>
+  );
 }
 
 export function Features() {
   return (
     <section id="features" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-20">
-      <h2 className="max-w-2xl font-display text-3xl font-semibold tracking-tight sm:text-5xl">
-        Everything a small business touches in a day
-      </h2>
-      <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">
-        Every part of Operly works from the same records, so nothing is typed twice.
-      </p>
+      <Reveal>
+        <h2 className="max-w-2xl font-display text-3xl font-semibold tracking-tight sm:text-5xl">
+          Everything a small business touches in a day
+        </h2>
+        <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">
+          Every part of Operly works from the same records, so nothing is typed twice.
+        </p>
+      </Reveal>
 
       <div className="mt-12 grid gap-5 lg:grid-cols-6">
         <Card className="bg-midnight-900 text-white lg:col-span-3 lg:row-span-2">
@@ -46,7 +54,7 @@ export function Features() {
           </div>
         </Card>
 
-        <Card className="bg-white lg:col-span-3">
+        <Card delay={120} className="bg-white lg:col-span-3">
           <h3 className="font-display text-xl font-semibold">Customer Hub</h3>
           <p className="mt-2 leading-relaxed text-muted">
             One profile per customer with notes, history and the next follow-up date.
@@ -61,7 +69,7 @@ export function Features() {
           </ul>
         </Card>
 
-        <Card className="bg-white lg:col-span-3">
+        <Card delay={200} className="bg-white lg:col-span-3">
           <h3 className="font-display text-xl font-semibold">Sales Hub</h3>
           <p className="mt-2 leading-relaxed text-muted">Move each opportunity from first enquiry to won or lost.</p>
           <div className="mt-5 flex flex-wrap gap-2">
@@ -101,7 +109,7 @@ export function Features() {
           </ul>
         </Card>
 
-        <Card className="bg-iris-600 text-white lg:col-span-2">
+        <Card delay={120} className="bg-iris-600 text-white lg:col-span-2">
           <h3 className="font-display text-xl font-semibold">Quotations and replies</h3>
           <p className="mt-2 leading-relaxed text-lilac-100">
             Generate from the deal, use your business details, edit, then download as PDF.
@@ -116,7 +124,7 @@ export function Features() {
           </div>
         </Card>
 
-        <Card className="bg-white lg:col-span-2">
+        <Card delay={240} className="bg-white lg:col-span-2">
           <h3 className="font-display text-xl font-semibold">Business insights</h3>
           <p className="mt-2 leading-relaxed text-muted">Revenue, conversion and lost deals, explained in plain English.</p>
           <svg viewBox="0 0 200 70" className="mt-5 w-full" aria-hidden="true">

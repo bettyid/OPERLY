@@ -1,3 +1,4 @@
+import { Reveal } from "./Reveal";
 import Link from "next/link";
 
 const plans = [
@@ -49,16 +50,19 @@ export function Pricing() {
   return (
     <section id="pricing" className="scroll-mt-24">
       <div className="mx-auto max-w-6xl px-5 py-20">
-        <h2 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
-          Start free, upgrade when you need more
-        </h2>
-        <p className="mt-4 max-w-xl leading-relaxed text-muted">
-          Monthly and annual billing will be available. Paid plan prices are announced at launch.
-        </p>
+        <Reveal>
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
+            Start free, upgrade when you need more
+          </h2>
+          <p className="mt-4 max-w-xl leading-relaxed text-muted">
+            Monthly and annual billing will be available. Paid plan prices are announced at launch.
+          </p>
+        </Reveal>
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
-          {plans.map((p) => (
-            <div
+          {plans.map((p, i) => (
+            <Reveal
               key={p.name}
+              delay={i * 120}
               className={`flex flex-col rounded-[2rem] p-8 ${
                 p.featured ? "bg-iris-600 text-white shadow-[0_30px_60px_-30px_rgba(91,79,233,0.8)]" : "bg-white"
               }`}
@@ -86,7 +90,7 @@ export function Pricing() {
               >
                 {p.cta}
               </Link>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
