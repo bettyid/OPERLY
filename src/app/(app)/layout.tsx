@@ -6,6 +6,11 @@ import { requireWorkspace } from "@/lib/session";
 
 const nav: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: "M4 13h6V4H4v9zm0 7h6v-5H4v5zm10 0h6v-9h-6v9zm0-16v5h6V4h-6z" },
+  {
+    href: "/customers",
+    label: "Customers",
+    icon: "M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm13 10v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8",
+  },
 ];
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
