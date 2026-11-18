@@ -25,9 +25,9 @@ const fraunces = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Operly: the AI workspace for running your business",
+  title: "Operly: your business, understood",
   description:
-    "Manage customers, sales, tasks and quotations in one workspace, with an AI assistant that handles the busywork.",
+    "A worldwide AI business operating system. Manage customers, sales, tasks and quotations in one workspace, with an AI assistant that handles the busywork.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

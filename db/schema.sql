@@ -95,6 +95,7 @@ create table if not exists deals (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+alter table deals add column if not exists closed_at timestamptz;
 create index if not exists deals_business_idx on deals(business_id, stage);
 
 create table if not exists tasks (

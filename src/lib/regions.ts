@@ -66,3 +66,12 @@ export function isValidTimezone(tz: string): boolean {
     return false;
   }
 }
+
+/** English text with the business country's number and date conventions (e.g. en-NG, en-GB, en-DE). */
+export function localeFor(country: string | null): string {
+  return country && country !== "OTHER" ? `en-${country}` : "en";
+}
+
+export function moneyFormatter(country: string | null, currency: string) {
+  return new Intl.NumberFormat(localeFor(country), { style: "currency", currency, maximumFractionDigits: 0 });
+}

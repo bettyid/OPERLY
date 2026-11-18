@@ -7,7 +7,7 @@ export function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:flex-row sm:items-start sm:justify-between">
         <div className="max-w-xs">
           <Logo light />
-          <p className="mt-4 text-sm leading-relaxed">Run your business. Let AI handle the busywork.</p>
+          <p className="mt-4 text-sm leading-relaxed">Your business. Understood. A worldwide AI workspace for customers, sales and tasks.</p>
         </div>
         <nav aria-label="Footer" className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-semibold">
           <a href="#features" className="hover:text-white">Features</a>
