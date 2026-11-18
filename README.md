@@ -15,4 +15,4 @@ npm run dev
 
 ## Status
 
-Step 1 of the build: project foundation, design system and public landing page. Authentication, database and the core workspace follow.
+Step 1 of the build: project foundation, indigo design system (Rubik + Nunito Sans) and public landing page. Authentication, database and the core workspace follow.

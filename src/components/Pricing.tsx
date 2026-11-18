@@ -47,26 +47,26 @@ const plans = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="scroll-mt-16 border-b border-line">
+    <section id="pricing" className="scroll-mt-24">
       <div className="mx-auto max-w-6xl px-5 py-20">
-        <h2 className="font-display text-3xl font-semibold tracking-tight text-forest-900 sm:text-4xl">
+        <h2 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
           Start free, upgrade when you need more
         </h2>
-        <p className="mt-4 max-w-xl leading-relaxed text-slate">
+        <p className="mt-4 max-w-xl leading-relaxed text-muted">
           Monthly and annual billing will be available. Paid plan prices are announced at launch.
         </p>
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
           {plans.map((p) => (
             <div
               key={p.name}
-              className={`flex flex-col rounded-2xl border p-7 ${
-                p.featured ? "border-forest-800 bg-forest-800 text-white" : "border-line bg-white"
+              className={`flex flex-col rounded-[2rem] p-8 ${
+                p.featured ? "bg-iris-600 text-white shadow-[0_30px_60px_-30px_rgba(91,79,233,0.8)]" : "bg-white"
               }`}
             >
               <h3 className="font-display text-xl font-semibold">{p.name}</h3>
-              <p className={`mt-1 text-sm ${p.featured ? "text-leaf-200" : "text-slate"}`}>{p.note}</p>
+              <p className={`mt-1 text-sm ${p.featured ? "text-lilac-100" : "text-muted"}`}>{p.note}</p>
               <p className="mt-6 font-display text-3xl font-semibold">{p.price}</p>
-              <ul className={`mt-6 flex-1 space-y-3 text-sm ${p.featured ? "text-leaf-100" : "text-ink"}`}>
+              <ul className={`mt-6 flex-1 space-y-3 text-sm ${p.featured ? "text-lilac-100" : "text-ink"}`}>
                 {p.features.map((f) => (
                   <li key={f} className="flex gap-2.5">
                     <svg className="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -78,10 +78,10 @@ export function Pricing() {
               </ul>
               <Link
                 href="/register"
-                className={`mt-8 rounded-lg px-5 py-2.5 text-center text-sm font-semibold ${
+                className={`mt-8 rounded-full px-5 py-3 text-center text-sm font-bold ${
                   p.featured
-                    ? "bg-white text-forest-900 hover:bg-leaf-100"
-                    : "border border-forest-800 text-forest-800 hover:bg-leaf-50"
+                    ? "bg-white text-iris-700 hover:bg-lilac-100"
+                    : "bg-lilac-100 text-iris-700 hover:bg-lilac-200"
                 }`}
               >
                 {p.cta}

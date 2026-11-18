@@ -5,6 +5,7 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { Control } from "@/components/Control";
 import { Pricing } from "@/components/Pricing";
 import { Faq } from "@/components/Faq";
+import { Cta } from "@/components/Cta";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
         <Control />
         <Pricing />
         <Faq />
+        <Cta />
       </main>
       <Footer />
     </>

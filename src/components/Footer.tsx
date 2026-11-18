@@ -3,13 +3,13 @@ import { Logo } from "./Logo";
 
 export function Footer() {
   return (
-    <footer className="bg-forest-950 text-leaf-200">
+    <footer className="mt-auto bg-midnight-900 text-lilac-300">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:flex-row sm:items-start sm:justify-between">
         <div className="max-w-xs">
           <Logo light />
           <p className="mt-4 text-sm leading-relaxed">Run your business. Let AI handle the busywork.</p>
         </div>
-        <nav aria-label="Footer" className="flex flex-wrap gap-x-8 gap-y-3 text-sm">
+        <nav aria-label="Footer" className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-semibold">
           <a href="#features" className="hover:text-white">Features</a>
           <a href="#how-it-works" className="hover:text-white">How it works</a>
           <a href="#pricing" className="hover:text-white">Pricing</a>
