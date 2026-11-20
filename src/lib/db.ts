@@ -21,3 +21,22 @@ export async function query<T = Record<string, unknown>>(text: string, params: u
   const res = await getPool().query(text, params);
   return res.rows as T[];
 }
+
+import type { PoolClient } from "pg";
+
+export type Tx = PoolClient;
+
+export async function withTx<T>(fn: (client: Tx) => Promise<T>): Promise<T> {
+  const client = await getPool().connect();
+  try {
+    await client.query("begin");
+    const result = await fn(client);
+    await client.query("commit");
+    return result;
+  } catch (err) {
+    await client.query("rollback").catch(() => {});
+    throw err;
+  } finally {
+    client.release();
+  }
+}
