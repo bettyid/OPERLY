@@ -440,3 +440,42 @@ create trigger inventory_movements_immutable before update or delete on inventor
 drop trigger if exists audit_log_immutable on audit_log;
 create trigger audit_log_immutable before update or delete on audit_log
   for each row execute function operly_block_history_change();
+
+-- =====================================================================
+-- Smart Data Capture: grouped daily/weekly summaries. A summary is its own
+-- kind of record. It never creates sales, customers or stock movements.
+-- =====================================================================
+create table if not exists daily_summaries (
+  id uuid primary key default gen_random_uuid(),
+  business_id uuid not null references businesses(id) on delete cascade,
+  period text not null default 'day' check (period in ('day', 'week')),
+  period_start date not null,
+  period_end date not null,
+  currency char(3) not null,
+  units_sold numeric(14,3) check (units_sold >= 0),
+  sales_total numeric(14,2) check (sales_total >= 0),
+  received_cash numeric(14,2) not null default 0 check (received_cash >= 0),
+  received_transfer numeric(14,2) not null default 0 check (received_transfer >= 0),
+  received_card numeric(14,2) not null default 0 check (received_card >= 0),
+  received_other numeric(14,2) not null default 0 check (received_other >= 0),
+  note text,
+  source text not null default 'manual' check (source in ('manual', 'voice', 'ocr')),
+  status text not null default 'active' check (status in ('active', 'voided')),
+  idempotency_key text,
+  created_by text,
+  voided_at timestamptz,
+  void_reason text,
+  created_at timestamptz not null default now(),
+  unique (business_id, id),
+  check (period_end >= period_start)
+);
+create unique index if not exists daily_summaries_idem_uq on daily_summaries(business_id, idempotency_key) where idempotency_key is not null;
+create unique index if not exists daily_summaries_period_uq on daily_summaries(business_id, period, period_start) where status = 'active';
+create index if not exists daily_summaries_biz_idx on daily_summaries(business_id, period_start desc);
+
+alter table expenses add column if not exists summary_id uuid;
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'expenses_summary_fk') then
+    alter table expenses add constraint expenses_summary_fk foreign key (business_id, summary_id) references daily_summaries(business_id, id);
+  end if;
+end $$;

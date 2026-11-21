@@ -18,6 +18,8 @@ const ALL_NAV: (NavItem & { needs?: Parameters<typeof can>[1] })[] = [
     icon: "M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm13 10v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8",
   },
   { href: "/debts", label: "Debts", icon: "M3 7h18v12H3V7zm0 0l3-4h12l3 4M16 13h2" },
+  { href: "/summaries", label: "Daily summary", icon: "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z", needs: "expenses.manage" },
+  { href: "/expenses", label: "Expenses", icon: "M12 2v20M17 6H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6", needs: "expenses.manage" },
 ];
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
