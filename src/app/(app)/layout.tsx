@@ -2,10 +2,16 @@ import Link from "next/link";
 import { AppNav, type NavItem } from "@/components/AppNav";
 import { Logo } from "@/components/Logo";
 import { SignOutButton } from "@/components/SignOutButton";
-import { requireWorkspace } from "@/lib/session";
+import { can } from "@/lib/services/permissions";
+import { requireCtx } from "@/lib/session";
 
-const nav: NavItem[] = [
+const ALL_NAV: (NavItem & { needs?: Parameters<typeof can>[1] })[] = [
   { href: "/dashboard", label: "Dashboard", icon: "M4 13h6V4H4v9zm0 7h6v-5H4v5zm10 0h6v-9h-6v9zm0-16v5h6V4h-6z" },
+  { href: "/pos", label: "Quick sale", icon: "M6 6h15l-1.5 9h-12L6 6zm0 0L5 3H2M9 20a1 1 0 100-2 1 1 0 000 2zm9 0a1 1 0 100-2 1 1 0 000 2z" },
+  { href: "/sales", label: "Sales", icon: "M6 2h12v20l-3-2-3 2-3-2-3 2V2zm3 6h6M9 12h6" },
+  { href: "/products", label: "Products", icon: "M21 8l-9-5-9 5v8l9 5 9-5V8zM3 8l9 5 9-5M12 13v8" },
+  { href: "/purchases", label: "Purchases", icon: "M3 7h11v9H3V7zm11 3h4l3 3v3h-7M7 19a2 2 0 100-4 2 2 0 000 4zm10 0a2 2 0 100-4 2 2 0 000 4z", needs: "purchases.create" },
+  { href: "/suppliers", label: "Suppliers", icon: "M4 21V5l8-3 8 3v16M9 21v-5h6v5M9 8h.01M15 8h.01M9 12h.01M15 12h.01", needs: "purchases.create" },
   {
     href: "/customers",
     label: "Customers",
@@ -14,7 +20,8 @@ const nav: NavItem[] = [
 ];
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const { user, business } = await requireWorkspace();
+  const { ctx, user, business } = await requireCtx();
+  const nav: NavItem[] = ALL_NAV.filter((n) => !n.needs || can(ctx.role, n.needs)).map(({ href, label, icon }) => ({ href, label, icon }));
   const initials = user.name
     .split(" ")
     .map((p) => p[0])

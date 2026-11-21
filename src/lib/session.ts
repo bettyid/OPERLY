@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "./auth";
 import { query } from "./db";
+import { loadCtx } from "./services/context";
 
 export type Business = {
   id: string;
@@ -33,4 +34,11 @@ export async function requireWorkspace() {
   if (rows.length === 0) redirect("/onboarding");
 
   return { user: session.user, business: rows[0] };
+}
+
+/** Workspace plus the acting context (role and business settings) used by all business services. */
+export async function requireCtx() {
+  const { user, business } = await requireWorkspace();
+  const ctx = await loadCtx(business.id, user.id);
+  return { ctx, user, business };
 }

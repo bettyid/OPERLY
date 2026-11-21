@@ -20,6 +20,8 @@ export type SaleInput = {
   items: SaleItemInput[];
   discount?: number | string;
   payments?: PaymentInput[];
+  /** Convenience for POS: record one payment for the whole total, using this method. */
+  payInFull?: string;
   notes?: string | null;
   source?: "manual" | "pos" | "voice" | "ocr" | "summary" | "import";
   idempotencyKey?: string;
@@ -126,7 +128,8 @@ async function createSaleTx(tx: Tx, ctx: Ctx, input: SaleInput): Promise<SaleRes
   if (discount.gt(subtotal)) throw new DomainError("The discount cannot be more than the sale amount.");
   const total = subtotal.minus(discount);
 
-  const payments = input.payments ?? [];
+  const payments: PaymentInput[] =
+    input.payments ?? (input.payInFull && total.gt(0) ? [{ amount: total.toString(), method: input.payInFull }] : []);
   const paidTotal = payments.reduce((a, p) => a.plus(parseMoney(p.amount, "Payment amount")), D(0));
   if (paidTotal.gt(total)) throw new DomainError("Payments add up to more than the sale total.");
 
