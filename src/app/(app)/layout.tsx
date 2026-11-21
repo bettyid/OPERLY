@@ -17,6 +17,7 @@ const ALL_NAV: (NavItem & { needs?: Parameters<typeof can>[1] })[] = [
     label: "Customers",
     icon: "M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm13 10v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8",
   },
+  { href: "/debts", label: "Debts", icon: "M3 7h18v12H3V7zm0 0l3-4h12l3 4M16 13h2" },
 ];
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {

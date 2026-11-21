@@ -126,3 +126,40 @@ export async function supplierBalance(ctx: Ctx, supplierId: string) {
   );
   return { billed: D(r.billed), paid: D(r.paid), outstanding: D(r.billed).minus(r.paid) };
 }
+
+export type Debtor = {
+  customerId: string;
+  name: string;
+  phone: string | null;
+  owed: Decimal;
+  openSales: number;
+  oldestSaleAt: Date;
+  sales: { id: string; saleNumber: number; soldAt: Date; total: Decimal; paid: Decimal; owed: Decimal }[];
+};
+
+/** Customers who still owe money, biggest debt first. Voided sales never count. */
+export async function listDebtors(ctx: Ctx): Promise<Debtor[]> {
+  assertCan(ctx, "payments.receive");
+  const rows = await query<{
+    id: string; sale_number: string; sold_at: Date; total: string; amount_paid: string;
+    customer_id: string; name: string; phone: string | null;
+  }>(
+    `select s.id, s.sale_number, s.sold_at, s.total, s.amount_paid, c.id as customer_id, c.name, c.phone
+       from sales s join customers c on c.business_id = s.business_id and c.id = s.customer_id
+      where s.business_id = $1 and s.status = 'completed' and s.total > s.amount_paid
+      order by s.sold_at, s.sale_number`,
+    [ctx.businessId],
+  );
+  const map = new Map<string, Debtor>();
+  for (const r of rows) {
+    const owed = D(r.total).minus(r.amount_paid);
+    const d = map.get(r.customer_id) ?? {
+      customerId: r.customer_id, name: r.name, phone: r.phone, owed: D(0), openSales: 0, oldestSaleAt: r.sold_at, sales: [],
+    };
+    d.owed = d.owed.plus(owed);
+    d.openSales += 1;
+    d.sales.push({ id: r.id, saleNumber: Number(r.sale_number), soldAt: r.sold_at, total: D(r.total), paid: D(r.amount_paid), owed });
+    map.set(r.customer_id, d);
+  }
+  return [...map.values()].sort((a, b) => b.owed.comparedTo(a.owed));
+}

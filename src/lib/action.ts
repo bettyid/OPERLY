@@ -13,3 +13,7 @@ export function fmtQty(n: number | string): string {
   const v = Number(n);
   return Number.isInteger(v) ? v.toLocaleString("en") : v.toLocaleString("en", { maximumFractionDigits: 3 });
 }
+
+export function daysSince(d: Date): number {
+  return Math.max(0, Math.floor((Date.now() - new Date(d).getTime()) / 86_400_000));
+}

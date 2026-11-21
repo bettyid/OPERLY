@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { CustomerForm } from "@/components/CustomerForm";
 import { DeleteCustomerButton } from "@/components/DeleteCustomerButton";
 import { query } from "@/lib/db";
-import { localeFor } from "@/lib/regions";
+import { localeFor, moneyFormatter } from "@/lib/regions";
 import { requireWorkspace } from "@/lib/session";
 import { updateCustomer } from "../actions";
 
@@ -45,6 +45,12 @@ export default async function CustomerPage({ params }: { params: Promise<{ id: s
     timeStyle: "short",
     timeZone: business.timezone,
   });
+  const [debt] = await query<{ owed: string; n: string }>(
+    `select coalesce(sum(total - amount_paid),0) as owed, count(*) as n from sales
+      where business_id = $1 and customer_id = $2 and status = 'completed' and total > amount_paid`,
+    [business.id, id],
+  );
+  const money = moneyFormatter(business.country, business.currency);
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -53,6 +59,13 @@ export default async function CustomerPage({ params }: { params: Promise<{ id: s
       </Link>
       <h1 className="mt-3 font-title text-4xl font-black tracking-tight sm:text-5xl">{customer.name}</h1>
       {customer.company && <p className="mt-2 text-muted">{customer.company}</p>}
+
+      {Number(debt.owed) > 0 && (
+        <Link href="/debts" className="mt-6 flex items-center justify-between rounded-[1.75rem] bg-amber/10 p-5 hover:bg-amber/15">
+          <span className="text-sm font-bold text-amber">Owes you {money.format(Number(debt.owed))} on {debt.n} unpaid {Number(debt.n) === 1 ? "sale" : "sales"}</span>
+          <span className="text-sm font-bold text-amber">View</span>
+        </Link>
+      )}
 
       <div className="mt-6 rounded-[2rem] bg-white p-6 sm:p-8">
         <CustomerForm action={updateCustomer} values={customer} submitLabel="Save changes" />
