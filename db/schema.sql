@@ -479,3 +479,39 @@ do $$ begin
     alter table expenses add constraint expenses_summary_fk foreign key (business_id, summary_id) references daily_summaries(business_id, id);
   end if;
 end $$;
+
+-- =====================================================================
+-- Voice / typed capture and AI usage. A capture is a DRAFT until the owner confirms it.
+-- Nothing is written to sales, purchases, expenses or summaries from model output alone.
+-- =====================================================================
+create table if not exists voice_captures (
+  id uuid primary key default gen_random_uuid(),
+  business_id uuid not null references businesses(id) on delete cascade,
+  user_id text not null,
+  transcript text not null,
+  extraction jsonb,
+  draft jsonb,
+  status text not null default 'draft' check (status in ('draft', 'confirmed', 'discarded', 'failed')),
+  result_type text,
+  result_id uuid,
+  model text,
+  created_at timestamptz not null default now(),
+  confirmed_at timestamptz,
+  unique (business_id, id)
+);
+create index if not exists voice_captures_biz_idx on voice_captures(business_id, created_at desc);
+
+create table if not exists ai_usage (
+  id bigserial primary key,
+  business_id uuid not null references businesses(id) on delete cascade,
+  user_id text,
+  feature text not null,
+  model text,
+  input_tokens integer not null default 0,
+  output_tokens integer not null default 0,
+  cache_read_input_tokens integer not null default 0,
+  cache_creation_input_tokens integer not null default 0,
+  request_id text,
+  created_at timestamptz not null default now()
+);
+create index if not exists ai_usage_biz_idx on ai_usage(business_id, created_at desc);
