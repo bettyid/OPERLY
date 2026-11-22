@@ -1,3 +1,4 @@
+import { ArtDefs } from "@/components/art";
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -10,6 +11,7 @@ import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
     <>
+      <ArtDefs />
       <main>
         <Hero />
         <Features />

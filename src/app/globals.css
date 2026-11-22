@@ -57,7 +57,14 @@ body {
   50% { opacity: 0; }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-9px) rotate(var(--r, 0deg)); }
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  .float { animation: float 8s ease-in-out infinite; }
+  .float-slow { animation: float 11s ease-in-out infinite; animation-delay: -4s; }
   .settle {
     opacity: 0;
     animation: settle 0.45s ease-out forwards;
